@@ -1,9 +1,8 @@
-const { get } = require("mongoose");
 const User = require("../models/user");
 
 // GET /users
 const getUsers = (req, res) => {
-  user.find({})
+  User.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       console.error(err);
@@ -14,7 +13,7 @@ const getUsers = (req, res) => {
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
 
-  user.create({ name, avatar })
+  User.create({ name, avatar })
     .then((user) => res.status(201).send(user))
     .catch((err) => {
       console.error(err);
@@ -27,9 +26,9 @@ const createUser = (req, res) => {
 
 const getUser = (req, res) => {
   const { userId } = req.params;
-  user.findById(userId)
-    .then((user) => res.status(200).send(user))
+  User.findById(userId)
     .orFail()
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
