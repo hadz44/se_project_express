@@ -32,14 +32,13 @@ const deleteClothingItem = (req, res) => {
   const { id } = req.params;
 
   ClothingItem.findByIdAndDelete(id)
-    .then((item) => {
-      if (!item) {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      return res.status(HTTP_STATUS.OK).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_DELETED });
-    })
+    .orFail()
+    .then(() => res.status(HTTP_STATUS.OK).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_DELETED }))
     .catch((err) => {
       console.error(err);
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+      }
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
@@ -57,14 +56,13 @@ const likeClothingItem = (req, res) => {
     { $addToSet: { likes: userId } },
     { new: true }
   )
-    .then((item) => {
-      if (!item) {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      return res.status(HTTP_STATUS.OK).send(item);
-    })
+    .orFail()
+    .then((item) => res.status(HTTP_STATUS.OK).send(item))
     .catch((err) => {
       console.error(err);
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+      }
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
@@ -82,14 +80,13 @@ const unlikeClothingItem = (req, res) => {
     { $pull: { likes: userId } },
     { new: true }
   )
-    .then((item) => {
-      if (!item) {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      return res.status(HTTP_STATUS.OK).send(item);
-    })
+    .orFail()
+    .then((item) => res.status(HTTP_STATUS.OK).send(item))
     .catch((err) => {
       console.error(err);
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+      }
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
