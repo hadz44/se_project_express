@@ -15,6 +15,8 @@ const ERROR_MESSAGES = {
   CLOTHING_ITEM_NOT_FOUND: "Clothing item not found",
   INVALID_ITEM_ID: "Invalid item ID format",
   CLOTHING_ITEM_DELETED: "Clothing item deleted successfully",
+  ROUTE_NOT_FOUND: "Route not found",
+  INVALID_URL: "You must enter a valid URL",
 };
 
 module.exports = {

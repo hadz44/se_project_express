@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { ERROR_MESSAGES } = require("../utils/constants");
 
 
 const userSchema = new mongoose.Schema({
@@ -16,7 +17,7 @@ const userSchema = new mongoose.Schema({
             validator(value) {
                 return validator.isURL(value);
             },
-            message: "You must enter a valid URL"
+            message: ERROR_MESSAGES.INVALID_URL
         },
         },
 });
