@@ -19,7 +19,7 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: err.message });
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
       }
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
