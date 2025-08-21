@@ -20,4 +20,4 @@ const ERROR_MESSAGES = {
 module.exports = {
   HTTP_STATUS,
   ERROR_MESSAGES,
-}; 
+};

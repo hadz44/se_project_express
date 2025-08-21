@@ -40,7 +40,7 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 ## 🏗️ Project Structure
 
 ```
-se_project_express/
+se_project_express-main/
 ├── app.js                 # Main application entry point
 ├── controllers/          # Business logic and request handlers
 │   ├── clothingItems.js  # Clothing item operations
@@ -52,8 +52,12 @@ se_project_express/
 │   ├── index.js        # Main router and error handling
 │   ├── clothingItems.js # Clothing item routes
 │   └── users.js        # User management routes
-└── utils/              # Utility functions and constants
-    └── constants.js    # HTTP status codes and error messages
+├── utils/              # Utility functions and constants
+│   └── constants.js    # HTTP status codes and error messages
+├── .eslintrc.js        # ESLint configuration
+├── .editorconfig       # Editor configuration
+├── .gitignore          # Git ignore rules
+└── package.json        # Project dependencies and scripts
 ```
 
 ## 🔌 API Endpoints
