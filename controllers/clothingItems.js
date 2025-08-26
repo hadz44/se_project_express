@@ -30,9 +30,16 @@ const createClothingItem = (req, res) => {
 // DELETE /items/:id - delete an item by _id
 const deleteClothingItem = (req, res) => {
   const { id } = req.params;
+  const userId = req.user._id;
 
-  ClothingItem.findByIdAndDelete(id)
+  ClothingItem.findById(id)
     .orFail()
+    .then((item) => {
+      if (item.owner.toString() !== userId) {
+        return res.status(HTTP_STATUS.FORBIDDEN).send({ message: ERROR_MESSAGES.FORBIDDEN_ACCESS });
+      }
+      return ClothingItem.findByIdAndDelete(id);
+    })
     .then(() => res.status(HTTP_STATUS.OK).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_DELETED }))
     .catch((err) => {
       console.error(err);

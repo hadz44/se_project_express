@@ -1,10 +1,19 @@
 const router = require("express").Router();
 const { HTTP_STATUS, ERROR_MESSAGES } = require("../utils/constants");
+const auth = require("../middlewares/auth");
 
 const userRouter = require("./users");
 const clothingItemsRouter = require("./clothingItems");
+const { login, createUser } = require("../controllers/users");
 
-router.use("/users", userRouter);
+// Public routes (no authorization required)
+router.post("/signin", login);
+router.post("/signup", createUser);
+
+// Protected routes (authorization required)
+router.use("/users", auth, userRouter);
+
+// Items routes - GET is public, others require auth
 router.use("/items", clothingItemsRouter);
 
 // Middleware for handling unknown routes
