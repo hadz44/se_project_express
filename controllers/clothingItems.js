@@ -1,5 +1,6 @@
 const ClothingItem = require('../models/clothingItem');
 const { HTTP_STATUS, ERROR_MESSAGES } = require('../utils/constants');
+const { extractValidationMessage } = require('../utils/validationHelpers');
 
 // GET /items - return all items from the database
 const getClothingItems = (req, res) => {
@@ -21,7 +22,8 @@ const createClothingItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'ValidationError') {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+        const validationMessage = extractValidationMessage(err);
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: validationMessage });
       }
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });

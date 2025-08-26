@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getUsers, getUser, updateUser } = require("../controllers/users");
+const { updateUser } = require("../controllers/users");
 
 // Note: createUser and login routes moved to main router as /signup and /signin
 

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { HTTP_STATUS, ERROR_MESSAGES } = require("../utils/constants");
 const { JWT_SECRET } = require("../utils/config");
+const { extractValidationMessage } = require("../utils/validationHelpers");
 
 // GET /users
 const getUsers = (req, res) => {
@@ -27,7 +28,8 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+        const validationMessage = extractValidationMessage(err);
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: validationMessage });
       }
       if (err.code === 11000) {
         return res.status(HTTP_STATUS.CONFLICT).send({ message: ERROR_MESSAGES.EMAIL_ALREADY_EXISTS });
@@ -65,7 +67,7 @@ const login = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: "Incorrect email or password" });
+      res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
     });
 };
 
@@ -86,7 +88,8 @@ const updateUser = (req, res) => {
         return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
       }
       if (err.name === "ValidationError") {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+        const validationMessage = extractValidationMessage(err);
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: validationMessage });
       }
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });

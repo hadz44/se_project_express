@@ -26,6 +26,7 @@ const ERROR_MESSAGES = {
   PASSWORD_TOO_SHORT: "Password must be at least 8 characters long",
   AUTHORIZATION_REQUIRED: "Authorization required",
   FORBIDDEN_ACCESS: "You are not authorized to delete this item",
+  INVALID_CREDENTIALS: "Incorrect email or password",
 };
 
 module.exports = {
