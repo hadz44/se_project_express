@@ -95,4 +95,22 @@ const updateUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser, getUser, login, updateUser };
+const getCurrentUser = (req, res) => {
+  const userId = req.user._id;
+
+  User.findById(userId)
+    .orFail()
+    .then((user) => res.status(HTTP_STATUS.OK).send(user))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
+      }
+      if (err.name === "CastError") {
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_USER_ID });
+      }
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+    });
+};
+
+module.exports = { getUsers, createUser, getUser, login, updateUser, getCurrentUser };

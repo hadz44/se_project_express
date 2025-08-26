@@ -79,6 +79,7 @@ se_project_express-main/
 - `POST /signin` - User login with JWT token response
 
 ### **User Management (Protected)**
+- `GET /users/me` - Get current user profile
 - `PATCH /users/me` - Update current user profile (name, avatar)
 
 ### **Clothing Items**
@@ -157,6 +158,11 @@ The application will automatically connect to MongoDB and create the necessary c
 2. Middleware validates JWT token
 3. User context is added to `req.user`
 4. Route handler executes with user authentication
+
+### **User Profile Management**
+- **Retrieve Profile**: `GET /users/me` returns the current user's complete profile
+- **Update Profile**: `PATCH /users/me` allows updating name and avatar fields
+- **Authentication Required**: Both endpoints require valid JWT token
 
 ### **Security Measures**
 - **Password Protection**: Never stored or transmitted in plain text
