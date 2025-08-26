@@ -7,10 +7,13 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 ### 🎯 Core Functionality
 
 - **User Management**: User registration, authentication, and profile management
+- **Authentication System**: JWT-based login/signup with secure password hashing
+- **Authorization**: Protected routes with user-specific access control
 - **Clothing Inventory**: Add, update, and delete clothing items with weather categorization
 - **Smart Recommendations**: Weather-based clothing suggestions (hot, warm, cold)
 - **Social Features**: Like/unlike clothing items, user interactions
 - **RESTful API**: Complete CRUD operations for all resources
+- **Security**: Password protection, CORS enabled, and ownership validation
 
 ## 🚀 Technologies & Techniques Used
 
@@ -20,6 +23,11 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 - **MongoDB** - NoSQL database for flexible data storage
 - **Mongoose** - MongoDB object modeling for Node.js
 
+### **Authentication & Security**
+- **JWT (JSON Web Tokens)** - Secure user authentication and session management
+- **bcrypt** - Password hashing and security
+- **CORS** - Cross-origin resource sharing for frontend integration
+
 ### **Development Tools**
 - **ESLint** - Code quality and consistency enforcement
 - **Prettier** - Code formatting and style consistency
@@ -28,9 +36,10 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 
 ### **API Design**
 - **RESTful Architecture** - Standard HTTP methods and status codes
-- **Middleware Pattern** - Modular request processing
+- **Middleware Pattern** - Modular request processing with custom auth middleware
 - **Error Handling** - Comprehensive error management and validation
-- **Route Organization** - Clean, modular routing structure
+- **Route Organization** - Clean, modular routing structure with public/protected endpoints
+- **JWT Authentication** - Token-based route protection and user context
 
 ### **Database Design**
 - **MongoDB Schema Design** - Optimized data models
@@ -45,15 +54,18 @@ se_project_express-main/
 ├── controllers/          # Business logic and request handlers
 │   ├── clothingItems.js  # Clothing item operations
 │   └── users.js         # User management operations
+├── middlewares/          # Custom middleware functions
+│   └── auth.js          # JWT authorization middleware
 ├── models/              # Database schemas and models
 │   ├── clothingItem.js  # Clothing item data model
-│   └── user.js         # User data model
+│   └── user.js         # User data model with password security
 ├── routes/             # API endpoint definitions
-│   ├── index.js        # Main router and error handling
-│   ├── clothingItems.js # Clothing item routes
-│   └── users.js        # User management routes
+│   ├── index.js        # Main router with signin/signup endpoints
+│   ├── clothingItems.js # Clothing item routes (protected)
+│   └── users.js        # User profile routes (protected)
 ├── utils/              # Utility functions and constants
-│   └── constants.js    # HTTP status codes and error messages
+│   ├── constants.js    # HTTP status codes and error messages
+│   └── config.js       # JWT secret configuration
 ├── .eslintrc.js        # ESLint configuration
 ├── .editorconfig       # Editor configuration
 ├── .gitignore          # Git ignore rules
@@ -62,17 +74,21 @@ se_project_express-main/
 
 ## 🔌 API Endpoints
 
-### **User Management**
-- `GET /users` - Retrieve all users
-- `GET /users/:userId` - Get specific user by ID
-- `POST /users` - Create new user account
+### **Authentication (Public)**
+- `POST /signup` - User registration with email and password
+- `POST /signin` - User login with JWT token response
+
+### **User Management (Protected)**
+- `PATCH /users/me` - Update current user profile (name, avatar)
 
 ### **Clothing Items**
-- `GET /items` - Retrieve all clothing items
-- `POST /items` - Add new clothing item
-- `DELETE /items/:id` - Remove clothing item
-- `PUT /items/:id/likes` - Like a clothing item
-- `DELETE /items/:id/likes` - Unlike a clothing item
+- `GET /items` - Retrieve all clothing items (Public)
+- `POST /items` - Add new clothing item (Protected - requires authentication)
+- `DELETE /items/:id` - Remove clothing item (Protected - owner only)
+- `PUT /items/:id/likes` - Like a clothing item (Protected)
+- `DELETE /items/:id/likes` - Unlike a clothing item (Protected)
+
+> **Note**: Protected routes require a valid JWT token in the `Authorization: Bearer <token>` header
 
 ## 🚀 Getting Started
 
@@ -108,6 +124,45 @@ se_project_express-main/
 
 ### **Database Setup**
 The application will automatically connect to MongoDB and create the necessary collections on first run.
+
+### **Authentication Setup**
+1. **JWT Secret**: The application uses a JWT secret for token signing (configured in `utils/config.js`)
+2. **Password Security**: Passwords are hashed using bcrypt with 10 salt rounds
+3. **Token Expiration**: JWT tokens expire after 7 days
+4. **Protected Routes**: Most routes require valid authentication tokens
+
+### **Security Features**
+- **Password Hashing**: All passwords are securely hashed before storage
+- **JWT Authentication**: Secure token-based authentication system
+- **Route Protection**: Middleware-based authorization for sensitive endpoints
+- **Ownership Validation**: Users can only delete their own clothing items
+- **CORS Enabled**: Frontend integration ready with cross-origin support
+
+## 🔐 Authentication Workflow
+
+### **User Registration**
+1. Send `POST /signup` with `name`, `email`, `password`, and `avatar`
+2. Password is hashed and stored securely
+3. User account is created in the database
+4. Response includes user data (password excluded)
+
+### **User Login**
+1. Send `POST /signin` with `email` and `password`
+2. Credentials are validated against stored hash
+3. JWT token is generated with user's `_id`
+4. Token expires after 7 days
+
+### **Protected Route Access**
+1. Include `Authorization: Bearer <token>` header
+2. Middleware validates JWT token
+3. User context is added to `req.user`
+4. Route handler executes with user authentication
+
+### **Security Measures**
+- **Password Protection**: Never stored or transmitted in plain text
+- **Token Validation**: All protected routes verify JWT authenticity
+- **Ownership Checks**: Users can only modify their own resources
+- **Input Validation**: All user inputs are validated and sanitized
 
 ## 🧪 Testing & Quality Assurance
 
@@ -165,7 +220,17 @@ This project is licensed under the ISC License.
 
 ## 🔄 Sprint Progress
 
-**Current Sprint**: 12
+**Current Sprint**: 13
+
+**Sprint 13 Features Implemented**:
+- ✅ JWT-based authentication system
+- ✅ User registration and login endpoints
+- ✅ Protected routes with authorization middleware
+- ✅ User profile management (PATCH /users/me)
+- ✅ Ownership validation for clothing items
+- ✅ Password security and hashing
+- ✅ CORS configuration for frontend integration
+- ✅ Comprehensive error handling with proper HTTP status codes
 
 Before committing your code, make sure to update the `sprint.txt` file in the root folder with your current sprint number.
 
