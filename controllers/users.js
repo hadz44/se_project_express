@@ -5,16 +5,6 @@ const { HTTP_STATUS, ERROR_MESSAGES } = require("../utils/constants");
 const { JWT_SECRET } = require("../utils/config");
 const { extractValidationMessage } = require("../utils/validationHelpers");
 
-// GET /users
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(HTTP_STATUS.OK).send(users))
-    .catch((err) => {
-      console.error(err);
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
-};
-
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
 
@@ -33,23 +23,6 @@ const createUser = (req, res) => {
       }
       if (err.code === 11000) {
         return res.status(HTTP_STATUS.CONFLICT).send({ message: ERROR_MESSAGES.EMAIL_ALREADY_EXISTS });
-      }
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
-};
-
-const getUser = (req, res) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .orFail()
-    .then((user) => res.status(HTTP_STATUS.OK).send(user))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
-      }
-      if (err.name === "CastError") {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_USER_ID });
       }
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
@@ -116,4 +89,4 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser, getUser, login, updateUser, getCurrentUser };
+module.exports = { createUser, login, updateUser, getCurrentUser };
