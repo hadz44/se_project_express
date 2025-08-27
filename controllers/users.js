@@ -67,7 +67,10 @@ const login = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
+      if (err.message === "Incorrect email or password") {
+        return res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
+      }
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 
