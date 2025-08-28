@@ -31,6 +31,14 @@ const createUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
+  // Check if email or password are missing
+  if (!email) {
+    return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.EMAIL_REQUIRED });
+  }
+  if (!password) {
+    return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.PASSWORD_REQUIRED });
+  }
+
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {

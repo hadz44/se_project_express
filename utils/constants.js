@@ -21,6 +21,7 @@ const ERROR_MESSAGES = {
   ROUTE_NOT_FOUND: "Route not found",
   INVALID_URL: "You must enter a valid URL",
   INVALID_EMAIL: "Please enter a valid email address",
+  EMAIL_REQUIRED: "Email is required",
   EMAIL_ALREADY_EXISTS: "A user with this email already exists",
   PASSWORD_REQUIRED: "Password is required",
   PASSWORD_TOO_SHORT: "Password must be at least 8 characters long",
