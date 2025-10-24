@@ -1,0 +1,5 @@
+[33m3ee3064[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add GET /users/me endpoint to retrieve current user profile
+[33m6a430c7[m Improve validation error handling
+[33m48dc7ef[m Update README.md with Sprint 13 authentication features and comprehensive documentation
+[33m204a7e3[m Implement authentication system with JWT, user management, and protected routes
+[33mafa682b[m Fix ESLint configuration syntax and formatting
