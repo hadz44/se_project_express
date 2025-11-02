@@ -1,7 +1,7 @@
 {
   "name": "se_project_express",
   "version": "1.0.0",
-  "description": "Updates to existing Project 12 screencasats. The",
+  "description": "WTWR (What to Wear?) backend API providing clothing recommendations and user management.",
   "main": "app.js",
   "scripts": {
     "lint": "npx eslint .",
@@ -30,5 +30,14 @@
     "eslint-plugin-import": "^2.32.0",
     "nodemon": "^3.1.10",
     "prettier": "^2.8.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadz44/se_project_express.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/hadz44/se_project_express/issues"
+  },
+  "homepage": "https://github.com/hadz44/se_project_express#readme"
 }
