@@ -205,8 +205,6 @@ Test the API endpoints using tools like:
 > - Database operations
 > - Error handling examples
 > - Complete user workflow
->   Link: https://drive.google.com/file/d/1m3_lU3hDS-bpMt-15XDmVEHaZFDkoXS5/view?usp=sharing
-
 
 ## 🤝 Contributing
 
