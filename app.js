@@ -1,26 +1,31 @@
+require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require("dotenv").config();
+const { errors } = require('celebrate');
 
-const mainRouter = require("./routes/index");
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/error-handler');
+const { helmet, corsMw, rateLimiter } = require('./middlewares/security');
+
+// Your combined router should be exported from routes/index.js
+const routes = require('./routes');
 
 const app = express();
-const { PORT = 3001 } = process.env;
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/wtwr_db")
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch(console.error);
-
+app.use(helmet());
+app.use(corsMw);
+app.use(rateLimiter);
 app.use(express.json());
-app.use(cors());
 
-// Apply auth middleware to all routes except signin, signup, and GET /items
-app.use("/", mainRouter);
+app.use(requestLogger);
 
+app.use('/', routes);
+
+app.use(errorLogger);
+app.use(errors());
+app.use(errorHandler);
+
+const { PORT = 3000 } = process.env;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);   
+  // eslint-disable-next-line no-console
+  console.log(`Server listening on ${PORT}`);
 });
