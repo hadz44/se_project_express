@@ -8,7 +8,9 @@ const getClothingItems = (req, res) => {
     .then((items) => res.status(HTTP_STATUS.OK).send(items))
     .catch((err) => {
       console.error(err);
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 
@@ -25,7 +27,9 @@ const createClothingItem = (req, res) => {
         const validationMessage = extractValidationMessage(err);
         return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: validationMessage });
       }
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 
@@ -46,12 +50,18 @@ const deleteClothingItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
       }
       if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 
@@ -60,22 +70,24 @@ const likeClothingItem = (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
 
-  ClothingItem.findByIdAndUpdate(
-    id,
-    { $addToSet: { likes: userId } },
-    { new: true }
-  )
+  ClothingItem.findByIdAndUpdate(id, { $addToSet: { likes: userId } }, { new: true })
     .orFail()
     .then((item) => res.status(HTTP_STATUS.OK).send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
       }
       if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 
@@ -84,22 +96,24 @@ const unlikeClothingItem = (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
 
-  ClothingItem.findByIdAndUpdate(
-    id,
-    { $pull: { likes: userId } },
-    { new: true }
-  )
+  ClothingItem.findByIdAndUpdate(id, { $pull: { likes: userId } }, { new: true })
     .orFail()
     .then((item) => res.status(HTTP_STATUS.OK).send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(HTTP_STATUS.NOT_FOUND).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
       }
       if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
       }
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
     });
 };
 

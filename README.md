@@ -18,23 +18,27 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 ## 🚀 Technologies & Techniques Used
 
 ### **Backend Framework**
+
 - **Node.js** - JavaScript runtime environment
 - **Express.js** - Fast, unopinionated web framework for Node.js
 - **MongoDB** - NoSQL database for flexible data storage
 - **Mongoose** - MongoDB object modeling for Node.js
 
 ### **Authentication & Security**
+
 - **JWT (JSON Web Tokens)** - Secure user authentication and session management
 - **bcrypt** - Password hashing and security
 - **CORS** - Cross-origin resource sharing for frontend integration
 
 ### **Development Tools**
+
 - **ESLint** - Code quality and consistency enforcement
 - **Prettier** - Code formatting and style consistency
 - **Nodemon** - Development server with hot reload
 - **Git** - Version control and collaboration
 
 ### **API Design**
+
 - **RESTful Architecture** - Standard HTTP methods and status codes
 - **Middleware Pattern** - Modular request processing with custom auth middleware
 - **Error Handling** - Comprehensive error management and validation
@@ -42,6 +46,7 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 - **JWT Authentication** - Token-based route protection and user context
 
 ### **Database Design**
+
 - **MongoDB Schema Design** - Optimized data models
 - **Data Validation** - Input sanitization and type checking
 - **Relationship Management** - User-item associations and references
@@ -75,14 +80,17 @@ se_project_express-main/
 ## 🔌 API Endpoints
 
 ### **Authentication (Public)**
+
 - `POST /signup` - User registration with email and password
 - `POST /signin` - User login with JWT token response
 
 ### **User Management (Protected)**
+
 - `GET /users/me` - Get current user profile
 - `PATCH /users/me` - Update current user profile (name, avatar)
 
 ### **Clothing Items**
+
 - `GET /items` - Retrieve all clothing items (Public)
 - `POST /items` - Add new clothing item (Protected - requires authentication)
 - `DELETE /items/:id` - Remove clothing item (Protected - owner only)
@@ -94,23 +102,28 @@ se_project_express-main/
 ## 🚀 Getting Started
 
 ### **Prerequisites**
+
 - Node.js (v14 or higher)
 - MongoDB (local or cloud instance)
 - npm or yarn package manager
 
 ### **Installation**
+
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd se_project_express-main
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Set up environment variables:
+
    ```bash
    # Create .env file with your MongoDB connection string
    MONGODB_URI=mongodb://127.0.0.1:27017/wtwr_db
@@ -124,15 +137,18 @@ se_project_express-main/
    ```
 
 ### **Database Setup**
+
 The application will automatically connect to MongoDB and create the necessary collections on first run.
 
 ### **Authentication Setup**
+
 1. **JWT Secret**: The application uses a JWT secret for token signing (configured in `utils/config.js`)
 2. **Password Security**: Passwords are hashed using bcrypt with 10 salt rounds
 3. **Token Expiration**: JWT tokens expire after 7 days
 4. **Protected Routes**: Most routes require valid authentication tokens
 
 ### **Security Features**
+
 - **Password Hashing**: All passwords are securely hashed before storage
 - **JWT Authentication**: Secure token-based authentication system
 - **Route Protection**: Middleware-based authorization for sensitive endpoints
@@ -142,29 +158,34 @@ The application will automatically connect to MongoDB and create the necessary c
 ## 🔐 Authentication Workflow
 
 ### **User Registration**
+
 1. Send `POST /signup` with `name`, `email`, `password`, and `avatar`
 2. Password is hashed and stored securely
 3. User account is created in the database
 4. Response includes user data (password excluded)
 
 ### **User Login**
+
 1. Send `POST /signin` with `email` and `password`
 2. Credentials are validated against stored hash
 3. JWT token is generated with user's `_id`
 4. Token expires after 7 days
 
 ### **Protected Route Access**
+
 1. Include `Authorization: Bearer <token>` header
 2. Middleware validates JWT token
 3. User context is added to `req.user`
 4. Route handler executes with user authentication
 
 ### **User Profile Management**
+
 - **Retrieve Profile**: `GET /users/me` returns the current user's complete profile
 - **Update Profile**: `PATCH /users/me` allows updating name and avatar fields
 - **Authentication Required**: Both endpoints require valid JWT token
 
 ### **Security Measures**
+
 - **Password Protection**: Never stored or transmitted in plain text
 - **Token Validation**: All protected routes verify JWT authenticity
 - **Ownership Checks**: Users can only modify their own resources
@@ -173,12 +194,15 @@ The application will automatically connect to MongoDB and create the necessary c
 ## 🧪 Testing & Quality Assurance
 
 ### **Code Quality**
+
 - **ESLint**: Automated code quality checks
 - **Prettier**: Consistent code formatting
 - **Git Hooks**: Pre-commit validation
 
 ### **API Testing**
+
 Test the API endpoints using tools like:
+
 - **Postman** - API testing and documentation
 - **Insomnia** - REST client for API development
 - **cURL** - Command-line HTTP requests
@@ -186,12 +210,14 @@ Test the API endpoints using tools like:
 ## 📸 Project Features & Screenshots
 
 > **Note**: This section will contain screenshots, GIFs, or videos demonstrating the project features. Please add your media content here to showcase:
+>
 > - API endpoint testing results
 > - Database schema examples
 > - Application workflow demonstrations
 > - User interface interactions (if applicable)
 
 ### **Recommended Media Content:**
+
 1. **API Documentation Screenshots** - Show Postman/Insomnia testing
 2. **Database Schema Visualizations** - MongoDB Compass screenshots
 3. **Workflow GIFs** - Demonstrate CRUD operations
@@ -200,13 +226,13 @@ Test the API endpoints using tools like:
 ## 🎥 Video Demo
 
 > **Note**: Include a video demonstration of your project here. The video should cover:
+>
 > - Project overview and setup
 > - API endpoint demonstrations
 > - Database operations
 > - Error handling examples
 > - Complete user workflow
 >   Link: https://drive.google.com/file/d/1m3_lU3hDS-bpMt-15XDmVEHaZFDkoXS5/view?usp=sharing
-
 
 ## 🤝 Contributing
 
@@ -222,7 +248,7 @@ This project is licensed under the ISC License.
 
 ## 👨‍💻 Author
 
-**Hadi Frifer** - *Initial work* - [GitHub Profile]
+**Hadi Frifer** - _Initial work_ - [GitHub Profile]
 
 ---
 
@@ -231,6 +257,7 @@ This project is licensed under the ISC License.
 **Current Sprint**: 13
 
 **Sprint 13 Features Implemented**:
+
 - ✅ JWT-based authentication system
 - ✅ User registration and login endpoints
 - ✅ Protected routes with authorization middleware
@@ -244,4 +271,4 @@ Before committing your code, make sure to update the `sprint.txt` file in the ro
 
 ---
 
-*Built with ❤️ using Node.js, Express, and MongoDB*
+_Built with ❤️ using Node.js, Express, and MongoDB_

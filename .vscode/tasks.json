@@ -4,7 +4,12 @@
     { "label": "npm: install", "type": "shell", "command": "npm ci" },
     { "label": "npm: dev", "type": "npm", "script": "dev" },
     { "label": "npm: start", "type": "npm", "script": "start" },
-    { "label": "npm: lint", "type": "npm", "script": "lint", "problemMatcher": ["$eslint-stylish"] },
+    {
+      "label": "npm: lint",
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": ["$eslint-stylish"]
+    },
     { "label": "npm: test", "type": "npm", "script": "test" }
   ]
 }

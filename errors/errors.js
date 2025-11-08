@@ -6,7 +6,7 @@ class AppError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.isOperational = true;
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -59,19 +59,19 @@ const createErrorFromMongoose = (err) => {
   if (err.name === 'ValidationError') {
     return new ValidationError(err.message);
   }
-  
+
   if (err.name === 'DocumentNotFoundError') {
     return new NotFoundError(ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND);
   }
-  
+
   if (err.name === 'CastError') {
     return new ValidationError(ERROR_MESSAGES.INVALID_ITEM_ID);
   }
-  
+
   if (err.code === 11000) {
     return new ConflictError(ERROR_MESSAGES.EMAIL_ALREADY_EXISTS);
   }
-  
+
   // For any other Mongoose errors, return internal server error
   return new InternalServerError();
 };
@@ -81,11 +81,11 @@ const createErrorFromJWT = (err) => {
   if (err.name === 'JsonWebTokenError') {
     return new UnauthorizedError(ERROR_MESSAGES.AUTHORIZATION_REQUIRED);
   }
-  
+
   if (err.name === 'TokenExpiredError') {
     return new UnauthorizedError(ERROR_MESSAGES.AUTHORIZATION_REQUIRED);
   }
-  
+
   return new UnauthorizedError();
 };
 
@@ -100,4 +100,3 @@ module.exports = {
   createErrorFromMongoose,
   createErrorFromJWT,
 };
-

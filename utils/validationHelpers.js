@@ -5,10 +5,10 @@
  */
 const extractValidationMessage = (validationError) => {
   if (!validationError || !validationError.errors) {
-    return "Validation failed";
+    return 'Validation failed';
   }
 
-  const errorMessages = Object.values(validationError.errors).map(err => err.message);
+  const errorMessages = Object.values(validationError.errors).map((err) => err.message);
   return errorMessages.join(', ');
 };
 

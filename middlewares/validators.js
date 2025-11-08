@@ -1,6 +1,7 @@
 const { celebrate, Joi, Segments } = require('celebrate');
 
-const urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{2,63}\b([-/a-zA-Z0-9()@:%_+.~#?&=]*)/;
+const urlRegex =
+  /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{2,63}\b([-/a-zA-Z0-9()@:%_+.~#?&=]*)/;
 
 const validateSignin = celebrate({
   [Segments.BODY]: Joi.object().keys({

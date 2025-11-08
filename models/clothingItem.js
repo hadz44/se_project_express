@@ -12,12 +12,12 @@ const clothingItemSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     required: true,
-    validate: { 
-      validator(value) { 
-        return validator.isURL(value); 
-      }, 
-      message: ERROR_MESSAGES.INVALID_URL, 
-    }, 
+    validate: {
+      validator(value) {
+        return validator.isURL(value);
+      },
+      message: ERROR_MESSAGES.INVALID_URL,
+    },
   },
   weather: {
     type: String,
@@ -29,10 +29,12 @@ const clothingItemSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-  }],
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

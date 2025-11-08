@@ -3,7 +3,7 @@ const auth = require('../middlewares/auth');
 const {
   validateClothingItemCreation,
   validateMongoId,
-  validateClothingItemsFilter
+  validateClothingItemsFilter,
 } = require('../middlewares/validation');
 const {
   getClothingItems,
