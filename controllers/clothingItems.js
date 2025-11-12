@@ -1,120 +1,87 @@
 const ClothingItem = require('../models/clothingItem');
 const { HTTP_STATUS, ERROR_MESSAGES } = require('../utils/constants');
-const { extractValidationMessage } = require('../utils/validationHelpers');
+const {
+  ForbiddenError,
+  InternalServerError,
+  createErrorFromMongoose,
+} = require('../errors/errors');
 
 // GET /items - return all items from the database
-const getClothingItems = (req, res) => {
-  ClothingItem.find({})
-    .then((items) => res.status(HTTP_STATUS.OK).send(items))
-    .catch((err) => {
-      console.error(err);
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
+const getClothingItems = async (req, res, next) => {
+  try {
+    const items = await ClothingItem.find({});
+    res.status(HTTP_STATUS.OK).send(items);
+  } catch (err) {
+    next(new InternalServerError());
+  }
 };
 
 // POST /items - create an item with name, imageUrl, and weather
-const createClothingItem = (req, res) => {
-  const { name, imageUrl, weather } = req.body;
-  const owner = req.user._id;
+const createClothingItem = async (req, res, next) => {
+  try {
+    const { name, imageUrl, weather } = req.body;
+    const owner = req.user._id;
 
-  ClothingItem.create({ name, imageUrl, weather, owner })
-    .then((item) => res.status(HTTP_STATUS.CREATED).send(item))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === 'ValidationError') {
-        const validationMessage = extractValidationMessage(err);
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: validationMessage });
-      }
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
+    const item = await ClothingItem.create({ name, imageUrl, weather, owner });
+    res.status(HTTP_STATUS.CREATED).send(item);
+  } catch (err) {
+    next(createErrorFromMongoose(err));
+  }
 };
 
 // DELETE /items/:id - delete an item by _id
-const deleteClothingItem = (req, res) => {
-  const { id } = req.params;
-  const userId = req.user._id;
+const deleteClothingItem = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
 
-  ClothingItem.findById(id)
-    .orFail()
-    .then((item) => {
-      if (item.owner.toString() !== userId) {
-        return res.status(HTTP_STATUS.FORBIDDEN).send({ message: ERROR_MESSAGES.FORBIDDEN_ACCESS });
-      }
-      return ClothingItem.findByIdAndDelete(id);
-    })
-    .then(() => res.status(HTTP_STATUS.OK).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_DELETED }))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === 'DocumentNotFoundError') {
-        return res
-          .status(HTTP_STATUS.NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      if (err.name === 'CastError') {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
-      }
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
+    const item = await ClothingItem.findById(id).orFail();
+    if (item.owner.toString() !== userId) {
+      throw new ForbiddenError(ERROR_MESSAGES.FORBIDDEN_ACCESS);
+    }
+    await ClothingItem.findByIdAndDelete(id);
+    res.status(HTTP_STATUS.OK).send({ message: ERROR_MESSAGES.CLOTHING_ITEM_DELETED });
+  } catch (err) {
+    if (err instanceof ForbiddenError) {
+      next(err);
+    } else {
+      next(createErrorFromMongoose(err));
+    }
+  }
 };
 
 // PUT /items/:id/likes - like an item
-const likeClothingItem = (req, res) => {
-  const { id } = req.params;
-  const userId = req.user._id;
+const likeClothingItem = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
 
-  ClothingItem.findByIdAndUpdate(id, { $addToSet: { likes: userId } }, { new: true })
-    .orFail()
-    .then((item) => res.status(HTTP_STATUS.OK).send(item))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === 'DocumentNotFoundError') {
-        return res
-          .status(HTTP_STATUS.NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      if (err.name === 'CastError') {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
-      }
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
+    const item = await ClothingItem.findByIdAndUpdate(
+      id,
+      { $addToSet: { likes: userId } },
+      { new: true },
+    ).orFail();
+    res.status(HTTP_STATUS.OK).send(item);
+  } catch (err) {
+    next(createErrorFromMongoose(err));
+  }
 };
 
 // DELETE /items/:id/likes - unlike an item
-const unlikeClothingItem = (req, res) => {
-  const { id } = req.params;
-  const userId = req.user._id;
+const unlikeClothingItem = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
 
-  ClothingItem.findByIdAndUpdate(id, { $pull: { likes: userId } }, { new: true })
-    .orFail()
-    .then((item) => res.status(HTTP_STATUS.OK).send(item))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === 'DocumentNotFoundError') {
-        return res
-          .status(HTTP_STATUS.NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND });
-      }
-      if (err.name === 'CastError') {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_ITEM_ID });
-      }
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.DEFAULT_SERVER_ERROR });
-    });
+    const item = await ClothingItem.findByIdAndUpdate(
+      id,
+      { $pull: { likes: userId } },
+      { new: true },
+    ).orFail();
+    res.status(HTTP_STATUS.OK).send(item);
+  } catch (err) {
+    next(createErrorFromMongoose(err));
+  }
 };
 
 module.exports = {

@@ -1,4 +1,3 @@
-// HTTP Status Codes
 const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -10,27 +9,32 @@ const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-// Error Messages
 const ERROR_MESSAGES = {
-  DEFAULT_SERVER_ERROR: 'An error has occurred on the server.',
-  USER_NOT_FOUND: 'User not found',
-  INVALID_USER_ID: 'Invalid user ID format',
-  CLOTHING_ITEM_NOT_FOUND: 'Clothing item not found',
-  INVALID_ITEM_ID: 'Invalid item ID format',
-  CLOTHING_ITEM_DELETED: 'Clothing item deleted successfully',
-  ROUTE_NOT_FOUND: 'Route not found',
-  INVALID_URL: 'You must enter a valid URL',
-  INVALID_EMAIL: 'Please enter a valid email address',
+  DEFAULT_SERVER_ERROR: 'An error occurred on the server',
+  AUTHORIZATION_REQUIRED: 'Authorization required',
+  INVALID_CREDENTIALS: 'Incorrect email or password',
   EMAIL_REQUIRED: 'Email is required',
-  EMAIL_ALREADY_EXISTS: 'A user with this email already exists',
   PASSWORD_REQUIRED: 'Password is required',
   PASSWORD_TOO_SHORT: 'Password must be at least 8 characters long',
-  AUTHORIZATION_REQUIRED: 'Authorization required',
-  FORBIDDEN_ACCESS: 'You are not authorized to delete this item',
-  INVALID_CREDENTIALS: 'Incorrect email or password',
+  INVALID_EMAIL: 'Invalid email format',
+  INVALID_URL: 'Invalid URL format',
+  EMAIL_ALREADY_EXISTS: 'Email already exists',
+  USER_NOT_FOUND: 'User not found',
+  INVALID_USER_ID: 'Invalid user ID',
+  CLOTHING_ITEM_NOT_FOUND: 'Clothing item not found',
+  INVALID_ITEM_ID: 'Invalid item ID',
+  FORBIDDEN_ACCESS: 'Access forbidden',
+  CLOTHING_ITEM_DELETED: 'Clothing item deleted',
 };
 
 module.exports = {
   HTTP_STATUS,
   ERROR_MESSAGES,
+  // Legacy exports for backward compatibility
+  STATUS_BAD_REQUEST: HTTP_STATUS.BAD_REQUEST,
+  STATUS_INTERNAL_SERVER_ERROR: HTTP_STATUS.INTERNAL_SERVER_ERROR,
+  STATUS_UNAUTHORIZED: HTTP_STATUS.UNAUTHORIZED,
+  STATUS_FORBIDDEN: HTTP_STATUS.FORBIDDEN,
+  STATUS_NOT_FOUND: HTTP_STATUS.NOT_FOUND,
+  STATUS_CONFLICT: HTTP_STATUS.CONFLICT,
 };

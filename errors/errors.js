@@ -1,4 +1,5 @@
-const { HTTP_STATUS, ERROR_MESSAGES } = require('./constants');
+/* eslint-disable max-classes-per-file */
+const { HTTP_STATUS, ERROR_MESSAGES } = require('../utils/constants');
 
 // Base Error class
 class AppError extends Error {
@@ -55,16 +56,22 @@ class InternalServerError extends AppError {
 }
 
 // Helper function to create errors from Mongoose errors
-const createErrorFromMongoose = (err) => {
+const createErrorFromMongoose = (err, context = 'item') => {
   if (err.name === 'ValidationError') {
     return new ValidationError(err.message);
   }
 
   if (err.name === 'DocumentNotFoundError') {
+    if (context === 'user') {
+      return new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND);
+    }
     return new NotFoundError(ERROR_MESSAGES.CLOTHING_ITEM_NOT_FOUND);
   }
 
   if (err.name === 'CastError') {
+    if (context === 'user') {
+      return new ValidationError(ERROR_MESSAGES.INVALID_USER_ID);
+    }
     return new ValidationError(ERROR_MESSAGES.INVALID_ITEM_ID);
   }
 

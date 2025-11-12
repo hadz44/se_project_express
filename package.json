@@ -5,9 +5,10 @@
   "main": "app.js",
   "scripts": {
     "format": "prettier --write .",
-    "lint": "npx eslint .",
+    "lint": "eslint --ext .js,.cjs,.mjs .",
     "start": "node server.js",
-    "dev": "cross-env PORT=3001 nodemon server.js"
+    "dev": "cross-env PORT=3001 nodemon server.js",
+    "lint:fix": "eslint --ext .js,.cjs,.mjs . --fix"
   },
   "author": "Hadi Frifer",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "bcrypt": "^6.0.0",
     "celebrate": "^15.0.3",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "express-rate-limit": "^8.2.1",
     "express-winston": "^4.2.0",
@@ -31,6 +33,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.10.2",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.5",
     "nodemon": "^3.1.10",
     "prettier": "^2.8.8"

@@ -18,6 +18,12 @@ app.use(express.json());
 
 app.use(requestLogger);
 
+// Crash-test route - should crash the app for PM2 testing
+// This route must be defined before error handlers to actually crash
+app.get('/crash-test', () => {
+  process.exit(1);
+});
+
 app.use('/', routes);
 
 app.use(errorLogger);

@@ -15,7 +15,7 @@ const validateSignup = celebrate({
     name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
-    avatar: Joi.string().pattern(urlRegex).optional(),
+    avatar: Joi.string().pattern(urlRegex).required(),
   }),
 });
 
@@ -39,10 +39,28 @@ const validateCreateClothingItem = celebrate({
   }),
 });
 
+const validateClothingItemCreation = validateCreateClothingItem;
+
+const validateMongoId = celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().hex().length(24).required(),
+  }),
+});
+
+const validateClothingItemsFilter = celebrate({
+  [Segments.QUERY]: Joi.object().keys({
+    weather: Joi.string().valid('hot', 'warm', 'cold').optional(),
+    owner: Joi.string().hex().length(24).optional(),
+  }),
+});
+
 module.exports = {
   validateSignin,
   validateSignup,
   validateUserUpdate,
   validateIdParam,
   validateCreateClothingItem,
+  validateClothingItemCreation,
+  validateMongoId,
+  validateClothingItemsFilter,
 };

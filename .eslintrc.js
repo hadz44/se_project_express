@@ -23,5 +23,7 @@ module.exports = {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-console': 'off',
     'prettier/prettier': 'warn',
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
   },
 };

@@ -4,7 +4,7 @@ const {
   validateClothingItemCreation,
   validateMongoId,
   validateClothingItemsFilter,
-} = require('../middlewares/validation');
+} = require('../middlewares/validators');
 const {
   getClothingItems,
   createClothingItem,

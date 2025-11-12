@@ -4,6 +4,18 @@
 
 WTWR (What to Wear?) is a comprehensive backend API service that provides clothing recommendation functionality based on weather conditions. The application allows users to manage their clothing items, create personalized wardrobes, and receive weather-appropriate clothing suggestions.
 
+## 🔗 Links
+
+### **Deployed Applications**
+
+- **Frontend**: [Live Application](https://your-frontend-url.com) - _Add your deployed frontend URL here_
+- **Backend API**: [API Server](https://your-backend-url.com) - _Add your deployed backend URL here_
+
+### **Repositories**
+
+- **Frontend Repository**: [GitHub Repository](https://github.com/yourusername/wtwr-frontend) - _Add your frontend repository URL here_
+- **Backend Repository**: [GitHub Repository](https://github.com/hadz44/se_project_express) - Backend API source code
+
 ### 🎯 Core Functionality
 
 - **User Management**: User registration, authentication, and profile management
