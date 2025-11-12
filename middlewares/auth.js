@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new UnauthorizedError(ERROR_MESSAGES.AUTHORIZATION_REQUIRED);
+    return next(new UnauthorizedError(ERROR_MESSAGES.AUTHORIZATION_REQUIRED));
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
     req.user = payload;
     return next();
   } catch (err) {
-    throw createErrorFromJWT(err);
+    return next(createErrorFromJWT(err));
   }
 };
 
