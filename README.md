@@ -8,12 +8,12 @@ WTWR (What to Wear?) is a comprehensive backend API service that provides clothi
 
 ### **Deployed Applications**
 
-- **Frontend**: [Live Application](https://your-frontend-url.com) - _Add your deployed frontend URL here_
-- **Backend API**: [API Server](https://your-backend-url.com) - _Add your deployed backend URL here_
+- **Frontend**: [Live Application](https://your-frontend-url.com) - Frontend application deployed on [platform name]
+- **Backend API**: [API Server](https://your-backend-url.com) - Backend API server deployed on [platform name]
 
 ### **Repositories**
 
-- **Frontend Repository**: [GitHub Repository](https://github.com/yourusername/wtwr-frontend) - _Add your frontend repository URL here_
+- **Frontend Repository**: [GitHub Repository](https://github.com/yourusername/wtwr-frontend) - Frontend source code
 - **Backend Repository**: [GitHub Repository](https://github.com/hadz44/se_project_express) - Backend API source code
 
 ### 🎯 Core Functionality

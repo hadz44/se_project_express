@@ -1,11 +1,11 @@
 const AppError = require('./AppError');
 const { HTTP_STATUS, ERROR_MESSAGES } = require('../utils/constants');
 
-class ForbiddenError extends AppError {
+class InternalServerError extends AppError {
   constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.FORBIDDEN);
-    this.name = 'ForbiddenError';
+    super(message, HTTP_STATUS.INTERNAL_SERVER_ERROR);
+    this.name = 'InternalServerError';
   }
 }
 
-module.exports = ForbiddenError;
+module.exports = InternalServerError;

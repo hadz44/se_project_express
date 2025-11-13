@@ -1,59 +1,11 @@
-/* eslint-disable max-classes-per-file */
-const { HTTP_STATUS, ERROR_MESSAGES } = require('../utils/constants');
-
-// Base Error class
-class AppError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = true;
-
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-// Custom error constructors
-class ValidationError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.BAD_REQUEST);
-    this.name = 'ValidationError';
-  }
-}
-
-class NotFoundError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.NOT_FOUND);
-    this.name = 'NotFoundError';
-  }
-}
-
-class UnauthorizedError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.UNAUTHORIZED);
-    this.name = 'UnauthorizedError';
-  }
-}
-
-class ForbiddenError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.FORBIDDEN);
-    this.name = 'ForbiddenError';
-  }
-}
-
-class ConflictError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.CONFLICT);
-    this.name = 'ConflictError';
-  }
-}
-
-class InternalServerError extends AppError {
-  constructor(message = ERROR_MESSAGES.DEFAULT_SERVER_ERROR) {
-    super(message, HTTP_STATUS.INTERNAL_SERVER_ERROR);
-    this.name = 'InternalServerError';
-  }
-}
+const { ERROR_MESSAGES } = require('../utils/constants');
+const AppError = require('./AppError');
+const ValidationError = require('./ValidationError');
+const NotFoundError = require('./NotFoundError');
+const UnauthorizedError = require('./UnauthorizedError');
+const ForbiddenError = require('./ForbiddenError');
+const ConflictError = require('./ConflictError');
+const InternalServerError = require('./InternalServerError');
 
 // Helper function to create errors from Mongoose errors
 const createErrorFromMongoose = (err, context = 'item') => {

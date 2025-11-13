@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -10,6 +11,19 @@ const { helmet, corsMw, rateLimiter } = require('./middlewares/security');
 const routes = require('./routes');
 
 const app = express();
+
+// Database connection
+const { MONGODB_URI = 'mongodb://127.0.0.1:27017/wtwr_db' } = process.env;
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1);
+  });
 
 app.use(helmet());
 app.use(corsMw);
@@ -32,6 +46,5 @@ app.use(errorHandler);
 
 const { PORT = 3000 } = process.env;
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server listening on ${PORT}`);
 });

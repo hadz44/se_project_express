@@ -1,10 +1,6 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth');
-const {
-  validateClothingItemCreation,
-  validateMongoId,
-  validateClothingItemsFilter,
-} = require('../middlewares/validators');
+const { validateClothingItemCreation, validateMongoId } = require('../middlewares/validators');
 const {
   getClothingItems,
   createClothingItem,
@@ -14,7 +10,7 @@ const {
 } = require('../controllers/clothingItems');
 
 // GET /items - return all items from the database (public)
-router.get('/', validateClothingItemsFilter, getClothingItems);
+router.get('/', getClothingItems);
 
 // Protected routes (authorization required)
 router.post('/', auth, validateClothingItemCreation, createClothingItem);

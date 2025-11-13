@@ -6,8 +6,8 @@
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --ext .js,.cjs,.mjs .",
-    "start": "node server.js",
-    "dev": "cross-env PORT=3001 nodemon server.js",
+    "start": "node app.js",
+    "dev": "cross-env PORT=3001 nodemon app.js",
     "lint:fix": "eslint --ext .js,.cjs,.mjs . --fix"
   },
   "author": "Hadi Frifer",
