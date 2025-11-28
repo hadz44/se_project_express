@@ -5,7 +5,8 @@ const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
-const { helmet, corsMw, rateLimiter } = require('./middlewares/security');
+const { helmet, rateLimiter } = require('./middlewares/security');
+const cors = require('./middlewares/cors');
 
 // Your combined router should be exported from routes/index.js
 const routes = require('./routes');
@@ -26,7 +27,7 @@ mongoose
   });
 
 app.use(helmet());
-app.use(corsMw);
+app.use(cors);
 app.use(rateLimiter);
 app.use(express.json());
 
